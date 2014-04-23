@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JsonEditor_Backend.API.Models;
 using JsonEditor_Backend.API.NPoco;
@@ -16,6 +17,8 @@ namespace JsonEditor_Backend.API.Repositories
 
         public int Add(Document document)
         {
+            document.DateCreated = DateTime.Now;
+            document.LastUpdated = DateTime.Now;
             using (var db = database)
                 db.Insert(document);
             return document.Id;
@@ -41,6 +44,7 @@ namespace JsonEditor_Backend.API.Repositories
 
         public void Update(Document document)
         {
+            document.LastUpdated = DateTime.Now;
             using (var db = database)
                 db.Update(document);
         }
