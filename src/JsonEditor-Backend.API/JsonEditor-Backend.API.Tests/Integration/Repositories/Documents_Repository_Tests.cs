@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using JsonEditor_Backend.API.Models;
 using JsonEditor_Backend.API.NPoco;
+using JsonEditor_Backend.API.Repositories;
 using NPoco;
 using NPoco.Expressions;
 using NUnit.Framework;
@@ -95,59 +97,5 @@ namespace JsonEditor_Backend.API.Tests.Integration.Repositories
             var documentfromDb = documentsRepository.Get(document.Id);
             documentfromDb.Should().BeNull();
         }
-    }
-
-    public class NPocoDocumentsRepository : IDocumentsRepository
-    {
-        private readonly IExtendedDatabase database;
-
-        public NPocoDocumentsRepository(IExtendedDatabase database)
-        {
-            this.database = database;
-        }
-
-        public int Add(Document document)
-        {
-            using (var db = new JsonEditorDb())
-                db.Insert(document);
-            return document.Id;
-        }
-
-        public void Delete(int documentId)
-        {
-            using (var db = new JsonEditorDb())
-                db.Delete<Document>(documentId);
-        }
-
-        public Document Get(int documentId)
-        {
-            using (var db = new JsonEditorDb())
-                return db.SingleOrDefaultById<Document>(documentId);
-        }
-
-        public void Update(Document document)
-        {
-            using (var db = new JsonEditorDb())
-                db.Update(document);
-        }
-    }
-
-    public interface IDocumentsRepository
-    {
-        int Add(Document document);
-        Document Get(int documentId);
-        void Update(Document document);
-        void Delete(int documentId);
-    }
-
-    [TableName("Documents")]
-    [PrimaryKey("Id")]
-    public class Document
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime LastUpdated { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string Data { get; set; }
     }
 }
