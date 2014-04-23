@@ -25,9 +25,9 @@ namespace JsonEditor_Backend.API.Controllers
         }
 
         // GET api/documents/5
-        public string Get(int id)
+        public Document Get(int id)
         {
-            return "value";
+            return documentsRepository.Get(id);
         }
 
         // POST api/documents
@@ -39,11 +39,14 @@ namespace JsonEditor_Backend.API.Controllers
         // PUT api/documents/5
         public void Put(int id, Document document)
         {
+            document.Id = id;
+            documentsRepository.Update(document);
         }
 
         // DELETE api/documents/5
         public void Delete(int id)
         {
+            documentsRepository.Delete(id);
         }
     }
 }
