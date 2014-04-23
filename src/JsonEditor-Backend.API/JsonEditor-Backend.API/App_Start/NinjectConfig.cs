@@ -1,4 +1,7 @@
-﻿using Ninject;
+﻿using JsonEditor_Backend.API.NPoco;
+using JsonEditor_Backend.API.Repositories;
+using Ninject;
+using NPoco;
 
 namespace JsonEditor_Backend.API
 {
@@ -16,7 +19,8 @@ namespace JsonEditor_Backend.API
         {
             var kernel = new StandardKernel();
 
-            //kernel.Bind<>().To<>();
+            kernel.Bind<IDocumentsRepository>().To<NPocoDocumentsRepository>();
+            kernel.Bind<IDatabase>().To<JsonEditorDb>();
             
             return kernel;
         }
