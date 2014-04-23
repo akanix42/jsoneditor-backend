@@ -71,7 +71,29 @@ namespace JsonEditor_Backend.API.Tests.Integration.Controllers
                 documentfromDb.Should().NotBeNull();
             }
         }
-  
+
+        [Test]
+        public async void Should_retrieve_all_documents_from_database()
+        {
+            var documentsRepository = new NPocoDocumentsRepository(new JsonEditorDb());
+
+            var document = CreateDocument();
+            documentsRepository.Add(document);
+
+            var document2 = CreateDocument();
+            documentsRepository.Add(document2);
+
+            using (var httpClient = GetHttpClient())
+            {
+                var response = await httpClient.GetAsync("api/documents/");
+                var contentString = await response.Content.ReadAsStringAsync();
+                var documents = await response.Content.ReadAsAsync<List<Document>>();
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+                documents.Count.Should().Be(2);
+            }
+        }
+
         [Test]
         public async void Should_retrieve_document_from_database()
         {

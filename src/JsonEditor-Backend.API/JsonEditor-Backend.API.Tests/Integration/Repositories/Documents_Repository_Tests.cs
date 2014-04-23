@@ -73,6 +73,22 @@ namespace JsonEditor_Backend.API.Tests.Integration.Repositories
         }
 
         [Test]
+        public void Should_retrieve_all_documents_from_database()
+        {
+            IDocumentsRepository documentsRepository = new NPocoDocumentsRepository(new JsonEditorDb());
+
+            var document = CreateDocument();
+            documentsRepository.Add(document);
+
+            var document2 = CreateDocument();
+            documentsRepository.Add(document2);
+
+            var documents = documentsRepository.GetAll();
+
+            documents.Count.Should().Be(2);
+        }
+
+        [Test]
         public void Should_update_document_in_database()
         {
             var document = CreateDocument();

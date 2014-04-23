@@ -19,9 +19,9 @@ namespace JsonEditor_Backend.API.Controllers
         }
 
         // GET api/documents
-        public IEnumerable<string> Get()
+        public List<Document> Get()
         {
-            return new string[] { "value1", "value2" };
+            return documentsRepository.GetAll();
         }
 
         // GET api/documents/5

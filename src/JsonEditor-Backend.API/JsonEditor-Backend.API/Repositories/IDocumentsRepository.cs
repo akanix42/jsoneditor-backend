@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JsonEditor_Backend.API.Models;
 
 namespace JsonEditor_Backend.API.Repositories
@@ -8,5 +9,6 @@ namespace JsonEditor_Backend.API.Repositories
         Document Get(int documentId);
         void Update(Document document);
         void Delete(int documentId);
+        List<Document> GetAll();
     }
 }
